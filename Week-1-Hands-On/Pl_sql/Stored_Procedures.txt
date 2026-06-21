@@ -1,0 +1,41 @@
+CREATE OR REPLACE PROCEDURE ProcessMonthlyInterest AS
+BEGIN
+    UPDATE Accounts 
+    SET Balance = Balance + (Balance * 0.01) 
+    WHERE AccountType = 'Savings';
+    
+    COMMIT;
+END ProcessMonthlyInterest;
+/
+
+CREATE OR REPLACE PROCEDURE UpdateEmployeeBonus (
+    p_dept    IN VARCHAR2,
+    p_bonus_p IN NUMBER
+) AS
+BEGIN
+    UPDATE Employees 
+    SET Salary = Salary + (Salary * (p_bonus_p / 100)) 
+    WHERE Department = p_dept;
+    
+    COMMIT;
+END UpdateEmployeeBonus;
+/
+
+CREATE OR REPLACE PROCEDURE TransferFunds (
+    p_src_acc IN NUMBER,
+    p_dest_acc IN NUMBER,
+    p_amt      IN NUMBER
+) AS
+    v_src_balance NUMBER;
+BEGIN
+    SELECT Balance INTO v_src_balance FROM Accounts WHERE AccountID = p_src_acc;
+    
+    IF v_src_balance >= p_amt THEN
+        UPDATE Accounts SET Balance = Balance - p_amt WHERE AccountID = p_src_acc;
+        UPDATE Accounts SET Balance = Balance + p_amt WHERE AccountID = p_dest_acc;
+        COMMIT;
+    ELSE
+        DBMS_OUTPUT.PUT_LINE('Transfer Aborted: Source balance holds insufficient funds.');
+    END IF;
+END TransferFunds;
+/

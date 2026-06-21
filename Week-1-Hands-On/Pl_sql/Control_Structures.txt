@@ -1,0 +1,50 @@
+DECLARE
+    v_age NUMBER;
+BEGIN
+    FOR r_cust IN (SELECT c.CustomerID, c.DOB, l.LoanID, l.InterestRate 
+                   FROM Customers c 
+                   JOIN Loans l ON c.CustomerID = l.CustomerID) 
+    LOOP
+        v_age := FLOOR(MONTHS_BETWEEN(SYSDATE, r_cust.DOB) / 12);
+        IF v_age > 60 THEN
+            UPDATE Loans 
+            SET InterestRate = InterestRate - 1 
+            WHERE LoanID = r_cust.LoanID;
+        END IF;
+    END LOOP;
+    COMMIT;
+END;
+/
+
+BEGIN
+    FOR r_cust IN (SELECT CustomerID, Balance FROM Customers) LOOP
+        IF r_cust.Balance > 10000 THEN
+            UPDATE Customers 
+            SET IsVIP = 'TRUE' 
+            WHERE CustomerID = r_cust.CustomerID;
+        ELSE
+            UPDATE Customers 
+            SET IsVIP = 'FALSE' 
+            WHERE CustomerID = r_cust.CustomerID;
+        END IF;
+    END LOOP;
+    COMMIT;
+END;
+/
+
+DECLARE
+    v_days_left NUMBER;
+BEGIN
+    FOR r_loan IN (SELECT l.LoanID, c.Name, l.EndDate 
+                   FROM Loans l 
+                   JOIN Customers c ON l.CustomerID = c.CustomerID) 
+    LOOP
+        v_days_left := CEIL(r_loan.EndDate - SYSDATE);
+        IF v_days_left >= 0 AND v_days_left <= 30 THEN
+            DBMS_OUTPUT.PUT_LINE('Reminder: Customer ' || r_loan.Name || 
+                                 ' loan ID ' || r_loan.LoanID || 
+                                 ' is due in ' || v_days_left || ' days.');
+        END IF;
+    END LOOP;
+END;
+/

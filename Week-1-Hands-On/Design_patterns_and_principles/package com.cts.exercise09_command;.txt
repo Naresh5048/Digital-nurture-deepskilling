@@ -1,0 +1,76 @@
+package com.cts.exercise09_command;
+
+interface Command {
+    void execute();
+}
+
+class Light {
+    public void turnOn() {
+        System.out.println("Smart Peripheral State Transition: Target Room Light Array illuminated on.");
+    }
+
+    public void turnOff() {
+        System.out.println("Smart Peripheral State Transition Target Room Light Array powered down off.");
+    }
+}
+
+class LightOnCommand implements Command {
+    private Light electricalLight;
+
+    public LightOnCommand(Light light) {
+        this.electricalLight = light;
+    }
+
+    @Override
+    public void execute() {
+        electricalLight.turnOn();
+    }
+}
+
+class LightOffCommand implements Command {
+    private Light electricalLight;
+
+    public LightOffCommand(Light light) {
+        this.electricalLight = light;
+    }
+
+    @Override
+    public void execute() {
+        electricalLight.turnOff();
+    }
+}
+
+class RemoteControl {
+    private Command actionSlot;
+
+    public void assignCommandToSlot(Command command) {
+        this.actionSlot = command;
+    }
+
+    public void pressActivationButton() {
+        if (actionSlot != null) {
+            actionSlot.execute();
+        }
+    }
+}
+
+public class CommandPatternExample {
+    public static void main(String[] args) {
+        System.out.println("Command Pattern Validation");
+
+        Light configurationLight = new Light();
+
+        Command triggerOn = new LightOnCommand(configurationLight);
+        Command triggerOff = new LightOffCommand(configurationLight);
+
+        RemoteControl centralHubRemote = new RemoteControl();
+
+        System.out.println("Invoking State Activation Sequence");
+        centralHubRemote.assignCommandToSlot(triggerOn);
+        centralHubRemote.pressActivationButton();
+
+        System.out.println("\nInvoking State Termination Sequence");
+        centralHubRemote.assignCommandToSlot(triggerOff);
+        centralHubRemote.pressActivationButton();
+    }
+}

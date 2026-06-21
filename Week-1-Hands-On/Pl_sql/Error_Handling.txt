@@ -1,0 +1,70 @@
+CREATE OR REPLACE PROCEDURE SafeTransferFunds (
+    p_from_acc IN NUMBER,
+    p_to_acc   IN NUMBER,
+    p_amount   IN NUMBER
+) AS
+    v_bal NUMBER;
+    v_insufficient_funds EXCEPTION;
+BEGIN
+    SELECT Balance INTO v_bal FROM Accounts WHERE AccountID = p_from_acc;
+    IF v_bal < p_amount THEN
+        RAISE v_insufficient_funds;
+    END IF;
+
+    UPDATE Accounts SET Balance = Balance - p_amount WHERE AccountID = p_from_acc;
+    UPDATE Accounts SET Balance = Balance + p_amount WHERE AccountID = p_to_acc;
+    
+    COMMIT;
+EXCEPTION
+    WHEN v_insufficient_funds THEN
+        ROLLBACK;
+        DBMS_OUTPUT.PUT_LINE('Error: Insufficient funds in source account ' || p_from_acc);
+    WHEN NO_DATA_FOUND THEN
+        ROLLBACK;
+        DBMS_OUTPUT.PUT_LINE('Error: Account profile match entry missing.');
+    WHEN OTHERS THEN
+        ROLLBACK;
+        DBMS_OUTPUT.PUT_LINE('Error: Transfer system abort. Database error code: ' || SQLCODE);
+END SafeTransferFunds;
+/
+
+CREATE OR REPLACE PROCEDURE UpdateSalary (
+    p_emp_id  IN NUMBER,
+    p_percent IN NUMBER
+) AS
+BEGIN
+    UPDATE Employees 
+    SET Salary = Salary + (Salary * (p_percent / 100)) 
+    WHERE EmployeeID = p_emp_id;
+
+    IF SQL%ROWCOUNT = 0 THEN
+        RAISE NO_DATA_FOUND;
+    END IF;
+    
+    COMMIT;
+EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+        DBMS_OUTPUT.PUT_LINE('Error: Employee with ID ' || p_emp_id || ' does not exist.');
+    WHEN OTHERS THEN
+        DBMS_OUTPUT.PUT_LINE('Error: Update salary operation aborted unexpectedly.');
+END UpdateSalary;
+/
+
+CREATE OR REPLACE PROCEDURE AddNewCustomer (
+    p_id    IN NUMBER,
+    p_name  IN VARCHAR2,
+    p_dob   IN DATE,
+    p_bal   IN NUMBER
+) AS
+BEGIN
+    INSERT INTO Customers (CustomerID, Name, DOB, Balance, LastModified)
+    VALUES (p_id, p_name, p_dob, p_bal, SYSDATE);
+    
+    COMMIT;
+EXCEPTION
+    WHEN DUP_VAL_ON_INDEX THEN
+        DBMS_OUTPUT.PUT_LINE('Error: Customer record registration with index ID ' || p_id || ' already exists.');
+    WHEN OTHERS THEN
+        DBMS_OUTPUT.PUT_LINE('Error: Customer record addition aborted.');
+END AddNewCustomer;
+/
