@@ -1,0 +1,3 @@
+com\cognizant\currencyexchange\controller\CurrencyExchangeController.class
+com\cognizant\currencyexchange\CurrencyExchangeApplication.class
+com\cognizant\currencyexchange\model\ExchangeValue.class

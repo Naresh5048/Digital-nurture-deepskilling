@@ -1,0 +1,4 @@
+com\cognizant\currencyconversion\controller\CurrencyConversionController.class
+com\cognizant\currencyconversion\proxy\CurrencyExchangeProxy.class
+com\cognizant\currencyconversion\model\CurrencyConversion.class
+com\cognizant\currencyconversion\CurrencyConversionApplication.class
