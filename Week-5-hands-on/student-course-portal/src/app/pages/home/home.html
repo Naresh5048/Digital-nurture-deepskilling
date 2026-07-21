@@ -1,0 +1,41 @@
+<div class="home-container">
+  <!-- 1. Interpolation -->
+  <h1>Welcome to {{ portalName }}</h1>
+  <p>Manage your academic journey, explore available courses, and track your progress seamlessly.</p>
+
+  <!-- 2. Property Binding & Event Binding -->
+  <div class="action-section">
+    <button [disabled]="!isPortalActive" (click)="onEnrollClick()" class="btn-enroll">
+      Enroll Now
+    </button>
+    <p *ngIf="message" class="info-msg">{{ message }}</p>
+  </div>
+  <div class="stat-card">
+  <h3>Courses Available</h3>
+  <p class="stat-value">{{ availableCoursesCount }}</p>
+</div>
+
+  <!-- 3. Two-Way Binding with ngModel -->
+  <div class="search-section">
+    <input type="text" [(ngModel)]="searchTerm" placeholder="Search courses..." class="search-input" />
+    <p class="search-preview">Searching for: <strong>{{ searchTerm }}</strong></p>
+  </div>
+
+  <!-- Note: [property] is one-way (Component -> DOM), [(ngModel)] is two-way (DOM <-> Component) -->
+
+  <!-- Stats Dashboard -->
+  <div class="stats-row">
+    <div class="stat-card">
+      <h3>Courses Available</h3>
+      <p class="stat-value">12</p>
+    </div>
+    <div class="stat-card">
+      <h3>Enrolled</h3>
+      <p class="stat-value">3</p>
+    </div>
+    <div class="stat-card">
+      <h3>GPA</h3>
+      <p class="stat-value">3.8</p>
+    </div>
+  </div>
+</div>

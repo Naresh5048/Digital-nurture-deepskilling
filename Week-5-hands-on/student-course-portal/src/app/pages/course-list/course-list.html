@@ -1,0 +1,38 @@
+<div class="course-list-container">
+  <h2>Reactive Course Directory</h2>
+
+  <!-- RxJS Powered Filter Bar -->
+  <div class="filter-bar">
+    <input 
+      type="text" 
+      [formControl]="searchControl" 
+      placeholder="Search courses by name or code (debounced)..." 
+      class="search-input" />
+
+    <select (change)="onGradeFilterChange($event)" class="filter-select">
+      <option value="all">All Statuses</option>
+      <option value="passed">Passed</option>
+      <option value="failed">Failed</option>
+      <option value="pending">Pending</option>
+    </select>
+  </div>
+
+  <!-- Async Pipe rendering from state stream -->
+  <ng-container *ngIf="filteredCourses$ | async as courses; else loading">
+    <div *ngIf="courses.length > 0; else emptyList" class="card-grid">
+      <app-course-card 
+        *ngFor="let c of courses; trackBy: trackByCourseId" 
+        [course]="c" 
+        (enrollRequested)="onEnroll($event)">
+      </app-course-card>
+    </div>
+  </ng-container>
+
+  <ng-template #loading>
+    <p>Loading course state stream...</p>
+  </ng-template>
+
+  <ng-template #emptyList>
+    <p>No courses match your search or filter criteria.</p>
+  </ng-template>
+</div>

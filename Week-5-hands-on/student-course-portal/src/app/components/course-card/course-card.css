@@ -1,0 +1,57 @@
+.card {
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  padding: 1.25rem;
+  background-color: #ffffff;
+  margin-bottom: 1rem;
+  transition: all 0.2s ease-in-out;
+}
+.card--enrolled {
+  background-color: #f0fdf4;
+}
+.card--full {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+.expanded {
+  min-height: 220px;
+}
+.badge-container {
+  margin: 0.5rem 0;
+}
+.badge {
+  padding: 0.25rem 0.6rem;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  color: white;
+}
+.badge-passed { background-color: #16a34a; }
+.badge-failed { background-color: #dc2626; }
+.badge-pending { background-color: #64748b; }
+
+.details-panel {
+  margin-top: 0.5rem;
+  font-size: 0.85rem;
+  color: #475569;
+}
+.card-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+.btn-card {
+  background-color: #2563eb;
+  color: white;
+  border: none;
+  padding: 0.4rem 0.8rem;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.btn-secondary {
+  background-color: #e2e8f0;
+  color: #1e293b;
+  border: none;
+  padding: 0.4rem 0.8rem;
+  border-radius: 4px;
+  cursor: pointer;
+}

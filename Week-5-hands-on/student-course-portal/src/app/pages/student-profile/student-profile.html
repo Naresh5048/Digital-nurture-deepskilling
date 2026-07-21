@@ -1,0 +1,27 @@
+<div class="profile-container">
+  <h2>Student Profile</h2>
+  
+  <h3>Enrolled Courses</h3>
+  <ng-container *ngIf="enrolledCourses$ | async as enrolledCourses; else loading">
+    <div *ngIf="enrolledCourses.length > 0; else noEnrollments">
+      <ul>
+        <li *ngFor="let course of enrolledCourses">
+          <strong>{{ course.code }}:</strong> {{ course.name }} ({{ course.credits }} Credits)
+        </li>
+      </ul>
+    </div>
+  </ng-container>
+
+  <ng-template #loading>
+    <p>Loading enrolled courses...</p>
+  </ng-template>
+
+  <ng-template #noEnrollments>
+    <p>No enrolled courses found.</p>
+  </ng-template>
+
+  <div class="notifications-section" *ngIf="notifications.length > 0">
+    <h4>Activity Log (Scoped Service)</h4>
+    <p *ngFor="let note of notifications">{{ note }}</p>
+  </div>
+</div>

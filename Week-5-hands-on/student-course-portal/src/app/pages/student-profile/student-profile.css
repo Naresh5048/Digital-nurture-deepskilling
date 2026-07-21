@@ -1,0 +1,15 @@
+.profile-container {
+  padding: 1.5rem;
+  max-width: 600px;
+  margin: 1rem auto;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  background-color: #ffffff;
+}
+.notifications-section {
+  margin-top: 1.5rem;
+  padding: 0.75rem;
+  background-color: #f1f5f9;
+  border-radius: 6px;
+  font-size: 0.85rem;
+}

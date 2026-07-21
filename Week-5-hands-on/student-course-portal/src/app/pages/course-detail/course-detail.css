@@ -1,0 +1,15 @@
+.detail-container {
+  padding: 2rem;
+  max-width: 500px;
+  margin: 1rem auto;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  background-color: #ffffff;
+}
+.btn-back {
+  display: inline-block;
+  margin-top: 1rem;
+  color: #2563eb;
+  text-decoration: none;
+  font-weight: 600;
+}

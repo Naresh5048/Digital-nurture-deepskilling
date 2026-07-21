@@ -1,0 +1,13 @@
+<div class="detail-container" *ngIf="course$ | async as course; else loading">
+  <h2>{{ course.name }} Details</h2>
+  <p><strong>Course Code:</strong> {{ course.code }}</p>
+  <p><strong>Credits:</strong> {{ course.credits }}</p>
+  <p><strong>Status:</strong> {{ course.gradeStatus }}</p>
+  <a routerLink="/courses" class="btn-back">← Back to Courses</a>
+</div>
+
+<ng-template #loading>
+  <div class="detail-container">
+    <p>Fetching course details from REST API...</p>
+  </div>
+</ng-template>

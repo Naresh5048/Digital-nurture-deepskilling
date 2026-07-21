@@ -1,0 +1,31 @@
+<div class="card" 
+     [ngClass]="cardClasses" 
+     [ngStyle]="{ 'border-left': '6px solid ' + statusBorderColor }"
+     [appHighlight]="'#fef08a'">
+     
+  <h3>{{ course.name }}</h3>
+  <p><strong>Code:</strong> {{ course.code }}</p>
+  
+  <!-- Custom Pipe usage -->
+  <p><strong>Credits:</strong> {{ course.credits | creditLabel }}</p>
+
+  <!-- *ngSwitch badge rendering -->
+  <div [ngSwitch]="course.gradeStatus" class="badge-container">
+    <span *ngSwitchCase="'passed'" class="badge badge-passed">Passed</span>
+    <span *ngSwitchCase="'failed'" class="badge badge-failed">Failed</span>
+    <span *ngSwitchDefault class="badge badge-pending">Pending</span>
+  </div>
+
+  <div *ngIf="isExpanded" class="details-panel">
+    <p>Additional course curriculum syllabus details loaded dynamically.</p>
+  </div>
+
+  <div class="card-actions">
+    <button (click)="toggleEnrollment()" class="btn-card">
+  {{ isEnrolled ? 'Unenroll' : 'Enroll' }}
+  </button>
+    <button (click)="toggleExpand()" class="btn-secondary">
+      {{ isExpanded ? 'Hide Details' : 'Show Details' }}
+    </button>
+  </div>
+</div>

@@ -1,0 +1,39 @@
+<div class="signal-list-container">
+  <h2>Signal-Driven Course Directory</h2>
+
+  <!-- Display Computed Signal Counters -->
+  <div class="badge-summary">
+    Showing <strong>{{ signalState.filteredCoursesCount() }}</strong> of 
+    <strong>{{ signalState.totalCoursesCount() }}</strong> Courses
+  </div>
+
+  <!-- Signal Inputs -->
+  <div class="filter-bar">
+    <input 
+      type="text" 
+      [ngModel]="signalState.searchTerm()" 
+      (ngModelChange)="onSearchChange($event)" 
+      placeholder="Instant signal search..." 
+      class="search-input" />
+
+    <select [ngModel]="signalState.selectedGrade()" (ngModelChange)="onGradeChange($event)" class="filter-select">
+      <option value="all">All Statuses</option>
+      <option value="passed">Passed</option>
+      <option value="failed">Failed</option>
+      <option value="pending">Pending</option>
+    </select>
+  </div>
+
+  <!-- Direct Signal Invocation in Template (No Async Pipe Needed!) -->
+  <div *ngIf="signalState.filteredCourses().length > 0; else emptyList" class="card-grid">
+    <app-course-card 
+      *ngFor="let c of signalState.filteredCourses(); trackBy: trackByCourseId" 
+      [course]="c" 
+      (enrollRequested)="onEnroll($event)">
+    </app-course-card>
+  </div>
+
+  <ng-template #emptyList>
+    <p>No courses match your signal search filter.</p>
+  </ng-template>
+</div>
